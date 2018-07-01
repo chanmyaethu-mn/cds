@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Layout</title>
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="alert alert-success" th:if="${successMessage}"
+			role="alert">
+			<strong>Well done!</strong> <span th:utext="${successMessage}"></span>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<a href="/createCrop" class="btn btn-info" role="button">CREATE</a>
+			</div>
+		</div>
+
+		<br>
+
+		<div class="row">
+			<div class="col-md-12">
+				<table class="table table-dark">
+					<thead>
+						<tr>
+							<!-- <th scope="col">#</th> -->
+							<th scope="col">English Name</th>
+							<th scope="col">Myanmar Name</th>
+							<th scope="col">Biological Name</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="crop : ${cropList}">
+							<td th:text="${crop.nameEn}">1</td>
+							<td th:text="${crop.nameMm}">Doe</td>
+							<td th:text="${crop.bioName}">John</td>
+							<td><a th:href="@{editCrop(cropId=${crop.cropId})}"> <i
+									class="far fa-edit text-warning"></i>
+							</a> &nbsp;&nbsp; <a th:href="@{editCrop(cropId=${crop.cropId})}"
+								data-toggle="confirmation" data-title="Delete Crop?"> <i
+									class="fas fa-trash-alt text-danger"></i>
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<script>
+			$('[data-toggle=confirmation]').confirmation({
+				rootSelector : '[data-toggle=confirmation]',
+			// other options
+			});
+		</script>
+	</div>
+
+</body>
+</html>

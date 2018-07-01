@@ -1,0 +1,77 @@
+/*
+    DEMO STYLE
+*/
+@import
+	"https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+@CHARSET "UTF-8";
+
+body {
+	font-family: 'Poppins', sans-serif;
+	background: #fafafa;
+	padding-top: 70px;
+}
+
+p {
+	font-family: 'Poppins', sans-serif;
+	font-size: 1.1em;
+	font-weight: 300;
+	line-height: 1.7em;
+	color: #999;
+}
+
+.content-editor-image-captioned {
+    display: table;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.content-editor-image-captioned.content-editor-image-left {
+    float: left;
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+/*preserve styling when editing content*/
+.cke_widget_image.content-editor-image-left {
+    float: left;
+    margin: 10px 20px 10px 0;
+}
+
+/*preserve styling when editing content*/
+.cke_widget_image.content-editor-image-left .content-editor-image-captioned {
+    margin: 0;
+}
+
+div.content-editor-image-center .content-editor-image-captioned {
+    margin: 20px auto;
+}
+
+.content-editor-image-captioned.content-editor-image-right {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0;
+}
+
+/*preserve styling when editing content*/
+.cke_widget_image.content-editor-image-right {
+    float: right;
+    margin: 10px 0 10px 20px;
+}
+
+/*preserve styling when editing content*/
+.cke_widget_image.content-editor-image-right .content-editor-image-captioned {
+    margin: 0;
+}
+
+.content-editor-image-captioned figcaption {
+    background: #f5f5f5;
+    border: 1px solid lightgray;
+    caption-side: bottom;
+    display: table-caption;
+    padding: 10px;
+}
+
+.image .cke_widget_element {
+	float:left;
+}
