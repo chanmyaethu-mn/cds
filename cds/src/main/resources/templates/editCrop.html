@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/layout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Layout</title>
+
+</head>
+
+<body>
+
+	<div layout:fragment="content">
+
+		<form autocomplete="off" action="#" th:action="@{/editCrop}"
+			th:object="${cropModificationDto}" method="post"
+			enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="nameEn" class="col-form-label">Name En :</label>
+				<div>
+					<input type="text" class="form-control" id="nameEn"
+						placeholder="Name as English" th:field="*{nameEn}">
+
+					<!-- 					<div class="invalid-feedback" th:if="${#fields.hasErrors('nameEn')}">Please choose a username.</div> -->
+					<label th:if="${#fields.hasErrors('nameEn')}" th:errors="*{nameEn}"
+						class="text-danger"></label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="nameMm" class="col-form-label text-right">Name
+					Mm :</label>
+				<div>
+					<input type="text" class="form-control" id="nameMm"
+						placeholder="Name as Myanmar(Optional)" th:field="*{nameMm}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="nameBio" class="col-form-label">Name Bio :</label>
+				<div>
+					<input type="text" class="form-control" id="nameBio"
+						placeholder="Name as Biological(Optional)" th:field="*{bioName}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="cropDescription" class="col-form-label">Description
+					: </label>
+				<div>
+					<textarea class="form-control" id="cropDescription"
+						placeholder="Description" rows="5" th:field="*{description}"></textarea>
+				</div>
+
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="btn btn-info btn-lg btn-block">INSERT</button>
+			</div>
+			<div class="form-group">
+				<button type="reset" class="btn btn-warning btn-lg btn-block">RESET</button>
+			</div>
+
+		</form>
+
+		<script>
+			// Replace the <textarea id="editor1"> with a CKEditor
+			// instance, using default configuration.
+			CKEDITOR.replace('cropDescription');
+		</script>
+
+	</div>
+
+</body>
+</html>

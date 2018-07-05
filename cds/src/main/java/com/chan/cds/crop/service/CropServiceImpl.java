@@ -8,16 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chan.cds.common.entity.Crop;
+import com.chan.cds.common.mapper.CropMapper;
 import com.chan.cds.crop.dao.CropDao;
 import com.chan.cds.crop.dto.CropRegisterationDto;
-
 
 @Service
 @Transactional
 public class CropServiceImpl implements CropService {
-	
+
 	@Autowired
 	private CropDao cropDao;
+
+	@Autowired
+	private CropMapper cropMapper;
 
 	@Override
 	public void insertCrop(CropRegisterationDto cropRegisterationDto) {
@@ -41,6 +44,14 @@ public class CropServiceImpl implements CropService {
 	@Override
 	public int deleteByPrimaryKey(Integer cropId) {
 		return cropDao.deleteByPrimaryKey(cropId);
+	}
+
+	@Override
+	public Crop getCropByPrimaryKey(Integer cropId) {
+
+		Crop crop = cropMapper.selectByPrimaryKey(cropId);
+
+		return crop;
 	}
 
 }

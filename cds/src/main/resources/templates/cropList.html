@@ -15,6 +15,11 @@
 			<strong>Well done!</strong> <span th:utext="${successMessage}"></span>
 		</div>
 		
+		<div class="alert alert-danger" th:if="${errorMessage}"
+			role="alert">
+			<strong>Ooops!</strong> <span th:utext="${errorMessage}"></span>
+		</div>
+
 		<div class="row">
 			<div class="col-md-12">
 				<a href="/createCrop" class="btn btn-info" role="button">CREATE</a>
@@ -43,7 +48,7 @@
 							<td th:text="${crop.bioName}">John</td>
 							<td><a th:href="@{editCrop(cropId=${crop.cropId})}"> <i
 									class="far fa-edit text-warning"></i>
-							</a> &nbsp;&nbsp; <a th:href="@{editCrop(cropId=${crop.cropId})}"
+							</a> &nbsp;&nbsp; <a th:href="@{deleteCrop(cropId=${crop.cropId})}"
 								data-toggle="confirmation" data-title="Delete Crop?"> <i
 									class="fas fa-trash-alt text-danger"></i>
 							</a></td>

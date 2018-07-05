@@ -12,4 +12,6 @@ public interface CropService {
 	public List<Crop> getAllCrop();
 	
 	public int deleteByPrimaryKey(Integer cropId);
+	
+	public Crop getCropByPrimaryKey(Integer cropId);
 }

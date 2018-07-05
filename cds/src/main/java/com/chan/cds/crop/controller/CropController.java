@@ -16,6 +16,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.chan.cds.common.constant.ViewMessageFlag;
 import com.chan.cds.common.constant.ViewName;
+import com.chan.cds.common.entity.Crop;
+import com.chan.cds.crop.dto.CropModificationDto;
 import com.chan.cds.crop.dto.CropRegisterationDto;
 import com.chan.cds.crop.service.CropService;
 
@@ -26,6 +28,8 @@ public class CropController {
 	private CropService cropService;
 	
 	private static final String CROPREGISTRATION_DTO = "cropRegisterationDto";
+	
+	private static final String CROPMODIFICATION_DTO = "cropModificationDto";
 	
 	private static final String CROP_LIST = "cropList";
 
@@ -71,12 +75,27 @@ public class CropController {
 	}
 	
 	@RequestMapping(value = "/editCrop")
-	public ModelAndView editCrop(@RequestParam("cropId") Integer cropId) {
+	public ModelAndView editCrop(@RequestParam("cropId") Integer cropId, RedirectAttributes redirectAttributes) {
+		Crop crop = cropService.getCropByPrimaryKey(cropId);
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName(ViewName.CROP_LIST);
-		return modelAndView;
+		if (null == crop) {
+			redirectAttributes.getFlashAttributes().clear();
+			redirectAttributes.addFlashAttribute(ViewMessageFlag.ERROR_MESSAGE, "Crop doesn't exist");
+			modelAndView.setViewName(ViewName.REDIRECT+ ViewName.CROP_LIST);
+			return modelAndView;
+		} else {
+			modelAndView.addObject(CROPMODIFICATION_DTO, crop);
+			modelAndView.setViewName(ViewName.EDIT_CROP);
+			return modelAndView;
+		}
 	}
 	
+	@RequestMapping(value = "/editCrop", method = RequestMethod.POST)
+	public RedirectView editCrop(@Valid @Validated CropModificationDto cropModificationDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		return new RedirectView();
+	}
+	
+	@RequestMapping(value = "/deleteCrop")
 	public RedirectView deleteCrop(@RequestParam("cropId") Integer cropId, RedirectAttributes redirectAttributes) {
 		cropService.deleteByPrimaryKey(cropId);
 		redirectAttributes.getFlashAttributes().clear();
