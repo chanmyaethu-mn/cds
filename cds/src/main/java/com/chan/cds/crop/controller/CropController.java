@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.chan.cds.common.Pager;
 import com.chan.cds.common.constant.ViewMessageFlag;
 import com.chan.cds.common.constant.ViewName;
 import com.chan.cds.common.entity.Crop;
@@ -36,8 +37,10 @@ public class CropController {
 	
 	private static final String CROP_LIST = "cropList";
 	
-	int CROP_LIST_PAGE_SIZE = 10;
-	String CROP_LIST_BASE_URL = "/cropList/page/";
+	private static final int CROP_LIST_PAGE_SIZE = 5;
+	private static final String CROP_LIST_BASE_URL = "/cropList/page/";
+	
+	private static final String MODEL_ATTRIBUTE_PAGER = "pager";
 
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public ModelAndView cropTest() {
@@ -84,6 +87,8 @@ public class CropController {
 		model.addAttribute("baseUrl", baseUrl);
 		
 		modelAndView.addObject(CROP_LIST, pagedListHolder);
+		modelAndView.addObject(MODEL_ATTRIBUTE_PAGER, currentPage(pagedListHolder));
+		//uiModel.addAttribute(MODEL_ATTRIBUTE_PRODUCTS, pagedListHolder);
 		
 		modelAndView.setViewName(ViewName.CROP_LIST);
 		
@@ -151,6 +156,24 @@ public class CropController {
 			modelAndView.setViewName(ViewName.REDIRECT + "cropList/page/" + currentIndex + "?isDelete=true");
 			return modelAndView;
 		}
+	}
+	
+	private Pager currentPage(PagedListHolder<?> pagedListHolder) {
+		int currentIndex = pagedListHolder.getPage() + 1;
+		int beginIndex = Math.max(1, currentIndex - CROP_LIST_PAGE_SIZE);
+		int endIndex = Math.min(beginIndex + 5, pagedListHolder.getPageCount());
+		int totalPageCount = pagedListHolder.getPageCount();
+		int totalItems = pagedListHolder.getNrOfElements();
+		String baseUrl = CROP_LIST_BASE_URL;
+
+		Pager pager = new Pager();
+		pager.setBeginIndex(beginIndex);
+		pager.setEndIndex(endIndex);
+		pager.setCurrentIndex(currentIndex);
+		pager.setTotalPageCount(totalPageCount);
+		pager.setTotalItems(totalItems);
+		pager.setBaseUrl(baseUrl);
+		return pager;
 	}
 
 }

@@ -57,62 +57,10 @@
 					</tbody>
 				</table>
 			</div>
-			
-			<div class="col-md-12 text-center">
-				<div>
-					<ul class="pagination justify-content-center">
-						<li class="page-item"
-							th:classappend="${currentIndex == 1}? 'disabled' : ''">
-							<span class="page-link" th:if="${currentIndex == 1}">First</span>
-							<a class="page-link" th:if="${currentIndex != 1}" th:href="@{/products/page/1}">First</a>
-						</li>
-						<li class="page-item"
-							th:classappend="${currentIndex != 1}?'' : 'disabled'">
-							<span class="page-link" th:if="${currentIndex == 1}">
-								<i class="fas fa-angle-double-left"></i>
-							</span>
-							<a class="page-link" th:if="${currentIndex != 1}"
-								th:href="@{|${baseUrl}${currentIndex-1}|}"
-								title="Go to previous page">
-								<i class="fas fa-angle-double-left"></i>
-							</a>
-						</li>
-						<li th:each="item : ${#numbers.sequence(beginIndex, endIndex)}"
-							class="page-item"
-							th:classappend="${item == currentIndex ? 'active' : ''}">
-							<span class="page-link" th:if="${item == currentIndex}" th:text="${item}">
-								1
-							</span>
-							<a class="page-link" th:if="${item != currentIndex}"
-								th:href="@{|${baseUrl}${item}|}">
-								<span th:text="${item}">1</span>
-							</a>
-						</li>
-						
-						<li class="page-item"
-							th:classappend="${currentIndex != totalPageCount}? '' : 'disabled'">
-							<span class="page-link" th:if="${currentIndex == totalPageCount}">
-								<i class="fas fa-angle-double-right"></i>
-							</span>
-							<a class="page-link" th:if="${currentIndex != totalPageCount}"
-								th:href="@{|${baseUrl}${currentIndex + 1}|}"
-								title="Go to next page">
-								<i class="fas fa-angle-double-right"></i>
-							</a>
-						</li>
-						
-						<li class="page-item"
-							th:classappend="${currentIndex == totalPageCount}? 'disabled' : ''">
-							<span class="page-link" th:if="${currentIndex == totalPageCount}">
-								Last
-							</span>
-							<a class="page-link" th:if="${currentIndex != totalPageCount}"
-								th:href="@{|${baseUrl}${totalPageCount}|}">
-								Last
-							</a>
-						</li>
-					</ul>
-				</div>
+
+			<div th:if="${pager.totalItems > 5}" class="col-md-12 text-center">
+				<div th:replace="fragments/pagination :: [id='paginator']"
+					th:remove="tag">Pagination Control</div>
 			</div>
 		</div>
 	</div>

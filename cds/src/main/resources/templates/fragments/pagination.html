@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div id="paginator">
+		<div class="col-md-12 text-center">
+				<div>
+					<ul class="pagination justify-content-center">
+						<li class="page-item"
+							th:classappend="${pager.currentIndex == 1}? 'disabled' : ''">
+							<span class="page-link" th:if="${pager.currentIndex == 1}">First</span>
+							<a class="page-link" th:if="${pager.currentIndex != 1}" th:href="@{/cropList/page/1}">First</a>
+						</li>
+						<li class="page-item"
+							th:classappend="${pager.currentIndex != 1}?'' : 'disabled'">
+							<span class="page-link" th:if="${pager.currentIndex == 1}">
+								<i class="fas fa-angle-double-left"></i>
+							</span>
+							<a class="page-link" th:if="${currentIndex != 1}"
+								th:href="@{|${pager.baseUrl}${pager.currentIndex-1}|}"
+								title="Go to previous page">
+								<i class="fas fa-angle-double-left"></i>
+							</a>
+						</li>
+						<li th:each="item : ${#numbers.sequence(pager.beginIndex, pager.endIndex)}"
+							class="page-item"
+							th:classappend="${item == pager.currentIndex ? 'active' : ''}">
+							<span class="page-link" th:if="${item == pager.currentIndex}" th:text="${item}">
+								1
+							</span>
+							<a class="page-link" th:if="${item != pager.currentIndex}"
+								th:href="@{|${pager.baseUrl}${item}|}">
+								<span th:text="${item}">1</span>
+							</a>
+						</li>
+						
+						<li class="page-item"
+							th:classappend="${pager.currentIndex != pager.totalPageCount}? '' : 'disabled'">
+							<span class="page-link" th:if="${pager.currentIndex == pager.totalPageCount}">
+								<i class="fas fa-angle-double-right"></i>
+							</span>
+							<a class="page-link" th:if="${pager.currentIndex != pager.totalPageCount}"
+								th:href="@{|${pager.baseUrl}${pager.currentIndex + 1}|}"
+								title="Go to next page">
+								<i class="fas fa-angle-double-right"></i>
+							</a>
+						</li>
+						
+						<li class="page-item"
+							th:classappend="${pager.currentIndex == pager.totalPageCount}? 'disabled' : ''">
+							<span class="page-link" th:if="${pager.currentIndex == pager.totalPageCount}">
+								Last
+							</span>
+							<a class="page-link" th:if="${pager.currentIndex != pager.totalPageCount}"
+								th:href="@{|${pager.baseUrl}${pager.totalPageCount}|}">
+								Last
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		<!-- <div class="col-md-12 text-center">
+			<div class='pagination pagination-centered'>
+				<ul class="pagination">
+					<li th:class="${pager.currentIndex == 1}? 'disabled' : ''"><span
+						th:if='${pager.currentIndex == 1}'>First</span> <a
+						th:if='${pager.currentIndex != 1}' th:href="@{/products/page/1}">First</a>
+					</li>
+					<li th:class="${pager.currentIndex != 1}? '' : 'disabled'"><span
+						th:if='${pager.currentIndex == 1}'>«</span> <a
+						th:if='${pager.currentIndex != 1}'
+						th:href="@{|${pager.baseUrl}${pager.currentIndex - 1}|}"
+						title='Go to previous page'>«</a></li>
+
+					<li th:each="item : ${#numbers.sequence(pager.beginIndex,pager.endIndex)}"
+						th:class="${item == pager.currentIndex ? 'active' : '' }"><span
+						th:if='${item == pager.currentIndex}' th:text='${item}'>1</span> <a
+						th:if='${item != pager.currentIndex}' th:href="@{|${pager.baseUrl}${item}|}">
+							<span th:text='${item}'>1</span>
+					</a></li>
+
+					<li th:class="${pager.currentIndex != pager.totalPageCount}? '' : 'disabled'">
+						<span th:if='${pager.currentIndex == pager.totalPageCount}'>»</span> <a
+						th:if='${pager.currentIndex != pager.totalPageCount}'
+						th:href="@{|${pager.baseUrl}${pager.currentIndex + 1}|}"
+						title='Go to next page'>»</a>
+					</li>
+					<li th:class="${pager.currentIndex == pager.totalPageCount}? 'disabled' : ''">
+						<span th:if='${pager.currentIndex == pager.totalPageCount}'>Last</span> <a
+						th:if='${pager.currentIndex != pager.totalPageCount}'
+						th:href="@{|${pager.baseUrl}${pager.totalPageCount}|}">Last</a>
+					</li>
+				</ul>
+			</div>
+		</div> -->
+	</div>
+</body>
+</html>
