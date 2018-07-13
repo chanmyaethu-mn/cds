@@ -11,9 +11,13 @@
 
 	<div layout:fragment="content">
 
-		<form autocomplete="off" action="#" th:action="@{/editCrop}"
+		<form autocomplete="off" action="#" th:action="@{/updateCrop}"
 			th:object="${cropModificationDto}" method="post"
 			enctype="multipart/form-data">
+			<div class="form-group">
+				<input type="hidden" th:field="*{cropId}"/>
+				<input type="hidden" th:field="*{currentIndex}" id="currentIndex"/>
+			</div>
 			<div class="form-group">
 				<label for="nameEn" class="col-form-label">Name En :</label>
 				<div>
@@ -54,7 +58,7 @@
 			</div>
 
 			<div class="form-group">
-				<button type="submit" class="btn btn-info btn-lg btn-block">INSERT</button>
+				<button type="submit" class="btn btn-info btn-lg btn-block">UPDATE</button>
 			</div>
 			<div class="form-group">
 				<button type="reset" class="btn btn-warning btn-lg btn-block">RESET</button>

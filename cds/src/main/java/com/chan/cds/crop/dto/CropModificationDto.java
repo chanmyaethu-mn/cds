@@ -10,6 +10,8 @@ public class CropModificationDto implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private Integer cropId;
 
 	@NotEmpty(message = "Please provide name as english.")
 	private String nameEn;
@@ -19,6 +21,22 @@ public class CropModificationDto implements Serializable {
 	private String bioName;
 
 	private String description;
+	
+	private Integer currentIndex;
+
+	/**
+	 * @return the cropId
+	 */
+	public Integer getCropId() {
+		return cropId;
+	}
+
+	/**
+	 * @param cropId the cropId to set
+	 */
+	public void setCropId(Integer cropId) {
+		this.cropId = cropId;
+	}
 
 	/**
 	 * @return the nameEn
@@ -74,6 +92,20 @@ public class CropModificationDto implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return the currentIndex
+	 */
+	public Integer getCurrentIndex() {
+		return currentIndex;
+	}
+
+	/**
+	 * @param currentIndex the currentIndex to set
+	 */
+	public void setCurrentIndex(Integer currentIndex) {
+		this.currentIndex = currentIndex;
 	}
 
 	/*

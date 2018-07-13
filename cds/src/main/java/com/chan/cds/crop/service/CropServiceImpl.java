@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.chan.cds.common.entity.Crop;
+import com.chan.cds.common.entity.CropExample;
 import com.chan.cds.common.mapper.CropMapper;
 import com.chan.cds.crop.dao.CropDao;
+import com.chan.cds.crop.dto.CropModificationDto;
 import com.chan.cds.crop.dto.CropRegisterationDto;
 
 @Service
@@ -52,6 +54,26 @@ public class CropServiceImpl implements CropService {
 		Crop crop = cropMapper.selectByPrimaryKey(cropId);
 
 		return crop;
+	}
+
+	@Override
+	public void updateCrop(CropModificationDto cropModificationDto) {
+		// TODO Auto-generated method stub
+		Crop crop = new Crop();
+		crop.setCropId(cropModificationDto.getCropId());
+		crop.setNameEn(cropModificationDto.getNameEn());
+		crop.setNameMm(cropModificationDto.getNameMm());
+		crop.setBioName(cropModificationDto.getBioName());
+		crop.setDescription(cropModificationDto.getDescription());
+		crop.setUpdatedBy("Testing");
+		crop.setUpdatedDate(new Date());
+		
+		/*CropExample cropExample = new CropExample();
+		cropExample.createCriteria().andCropIdEqualTo(cropModificationDto.getCropId());
+		
+		cropMapper.updateByExample(crop, cropExample);*/
+		
+		cropMapper.updateByPrimaryKeySelective(crop);
 	}
 
 }

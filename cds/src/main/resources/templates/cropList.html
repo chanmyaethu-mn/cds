@@ -46,7 +46,7 @@
 							<td th:text="${crop.nameEn}">1</td>
 							<td th:text="${crop.nameMm}">Doe</td>
 							<td th:text="${crop.bioName}">John</td>
-							<td><a th:href="@{editCrop(cropId=${crop.cropId})}"> <i
+							<td><a th:href="@{editCrop(cropId=${crop.cropId}, currentIndex = ${currentIndex})}"> <i
 									class="far fa-edit text-warning"></i>
 							</a> &nbsp;&nbsp;
 							<a th:href="@{deleteCrop(cropId=${crop.cropId}, currentIndex = ${currentIndex})}" 

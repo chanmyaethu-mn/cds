@@ -22,6 +22,7 @@ import com.chan.cds.common.Pager;
 import com.chan.cds.common.constant.ViewMessageFlag;
 import com.chan.cds.common.constant.ViewName;
 import com.chan.cds.common.entity.Crop;
+import com.chan.cds.crop.dto.CropModificationDto;
 import com.chan.cds.crop.dto.CropRegisterationDto;
 import com.chan.cds.crop.service.CropService;
 
@@ -59,12 +60,24 @@ public class CropController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/cropList/page/{pageNumber}")
-	public ModelAndView showPagedProductPage(HttpServletRequest request, @PathVariable Integer pageNumber, @RequestParam(value = "isDelete", required = false) Boolean isDelete, Model model) {
+	public ModelAndView showPagedProductPage(HttpServletRequest request,
+											@PathVariable Integer pageNumber,
+											@RequestParam(value = "isDelete", required = false) Boolean isDelete,
+											@RequestParam(value = "isUpdate", required = false) Boolean isUpdate,
+											Model model) {
 		ModelAndView modelAndView = new ModelAndView();
 		PagedListHolder<Crop> pagedListHolder = (PagedListHolder<Crop>)request.getSession().getAttribute(CROP_LIST);
-		if (null == pagedListHolder || (null != isDelete && isDelete)) {
+		if (null == pagedListHolder) {
 			pagedListHolder = new PagedListHolder<>(cropService.getAllCrop());
 			pagedListHolder.setPageSize(CROP_LIST_PAGE_SIZE);
+		} else if ((null != isDelete && isDelete)
+				|| (null != isUpdate && isUpdate)) {
+			pagedListHolder = new PagedListHolder<>(cropService.getAllCrop());
+			pagedListHolder.setPageSize(CROP_LIST_PAGE_SIZE);
+			final int goToPage = pageNumber -1;
+			if (goToPage <= pagedListHolder.getPageCount() && goToPage >= 0) {
+				pagedListHolder.setPage(goToPage);
+			}
 		} else {
 			final int goToPage = pageNumber -1;
 			if (goToPage <= pagedListHolder.getPageCount() && goToPage >= 0) {
@@ -120,7 +133,7 @@ public class CropController {
 	}
 	
 	@RequestMapping(value = "/cropList/page/editCrop")
-	public ModelAndView editCrop(@RequestParam("cropId") Integer cropId, RedirectAttributes redirectAttributes) {
+	public ModelAndView editCrop(@RequestParam("cropId") Integer cropId, @RequestParam("currentIndex") Integer currentIndex, RedirectAttributes redirectAttributes) {
 		Crop crop = cropService.getCropByPrimaryKey(cropId);
 		ModelAndView modelAndView = new ModelAndView();
 		if (null == crop) {
@@ -129,16 +142,30 @@ public class CropController {
 			modelAndView.setViewName(ViewName.REDIRECT+ ViewName.CROP_LIST);
 			return modelAndView;
 		} else {
-			modelAndView.addObject(CROPMODIFICATION_DTO, crop);
+			CropModificationDto cropModificationDto = new CropModificationDto();
+			cropModificationDto.setCropId(crop.getCropId());
+			cropModificationDto.setNameEn(crop.getNameEn());
+			cropModificationDto.setNameMm(crop.getNameMm());
+			cropModificationDto.setBioName(crop.getBioName());
+			cropModificationDto.setDescription(crop.getDescription());
+			cropModificationDto.setCurrentIndex(currentIndex);
+			modelAndView.addObject(CROPMODIFICATION_DTO, cropModificationDto);
 			modelAndView.setViewName(ViewName.EDIT_CROP);
 			return modelAndView;
 		}
 	}
 	
-	/*@RequestMapping(value = "/editCrop", method = RequestMethod.POST)
-	public RedirectView editCrop(@Valid @Validated CropModificationDto cropModificationDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		return new RedirectView();
-	}*/
+	@RequestMapping(value = "/updateCrop", method = RequestMethod.POST)
+	public ModelAndView editCrop(@Valid @Validated CropModificationDto cropModificationDto,
+								BindingResult bindingResult,
+								RedirectAttributes redirectAttributes) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		cropService.updateCrop(cropModificationDto);
+		modelAndView.setViewName(ViewName.REDIRECT + "cropList/page/" + cropModificationDto.getCurrentIndex() + "?isUpdate=true");
+		
+		return modelAndView;
+	}
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/cropList/page/deleteCrop")
